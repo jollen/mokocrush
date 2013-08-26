@@ -6,13 +6,18 @@ mokocrush
 
 ### Organize Code
 
-* Index
-* Canvas
-* Algorithm
+* structure
 
 ### Canvas
 
 * grid
+
+### Module
+
+* score board
+
+### WebSocket
+
 
 ### Algorithm
 

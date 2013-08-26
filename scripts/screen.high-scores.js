@@ -33,8 +33,8 @@ jewel.screens["high-scores"] = (function() {
                 return 0;
             }
         });
-        $('#scoresList').html($.tmpl($("#scoresTemplate").html(), json));
 
+        $('#scoresList').html($.tmpl($("#scoresTemplate").html(), json));
     }
 
     function run() {

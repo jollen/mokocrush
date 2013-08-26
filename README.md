@@ -11,6 +11,7 @@ mokocrush
 
 ### JavaScript
 
+* bind both mouse and touch event (input.js L50:57)
 * canvas (display.canvas.js L35:54)
 * dom (dom.js)
 * yepnope (loader.js L100)

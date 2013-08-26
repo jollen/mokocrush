@@ -1,6 +1,6 @@
 jewel.screens["high-scores"] = (function() {
     var json = {};
-    var ws = new WebSocket("ws://127.0.0.1:8888/", "game-protocol");
+    var ws = new WebSocket("ws://direct.mokoversity.com:8888/", "game-protocol");
     ws.onmessage = wsOnMessage;
     ws.onopen = function() {
         console.log("WebSocket rocks");

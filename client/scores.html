@@ -1,0 +1,80 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Score Board</title>	
+        <link rel="stylesheet" href="scores.css" />
+  		<script src="./jquery.min.js"></script>
+  		<script src="./jquery.tmpl.min.js"></script>  
+  </head> 
+<body>
+<div id="qunit"></div>
+
+<script id="scoresTemplate" type="text/x-jquery-tmpl"> 
+		<tr>
+			<td>${name}</td>
+			<td>${scores}</td>
+		</tr>
+</script>
+
+<div>
+	<table class="dataTable" id="scoresList">
+		<tr>
+			<th>名字</th>
+			<th>分數</th>
+		</tr>
+	</table>
+</div>
+
+<script>
+var json = {};
+var ws;
+
+function wsOnMessage(message) {
+    var msg = "["+message.data+"]";
+    var data = JSON.parse(msg);
+
+    json = {
+        type: 'score-board',
+        data: data
+    };
+
+    showScoreboard();
+}
+
+function receiveScores() {
+    ws = new WebSocket("ws://svn.moko365.com:8080/", "game-protocol");
+
+    ws.onmessage = wsOnMessage;
+
+    /* json.data.scores should be:
+
+	var scores = [
+	    { name: "Jollen", scores: 50 },
+	    { name: "Frank", scores: 100 },
+	    { name: "Ellaine", scores: 258 }
+	];
+	
+	json = {
+		type: 'score-board',
+		data: scores
+    };
+    */
+	
+	return 3;
+}
+
+function showScoreboard() {
+	if (json.type === 'score-board') {
+		$("#scoresTemplate").tmpl(json.data	)
+	    	.appendTo( "#scoresList" );
+	    return true;
+	}
+	return false;
+}
+
+receiveScores();
+//showScoreboard();
+</script>
+</body> 
+</html>

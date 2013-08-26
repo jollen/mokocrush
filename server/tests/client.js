@@ -30,4 +30,4 @@ client.on('connect', function(connection) {
     sendNumber();
 });
 
-client.connect('ws://svn.moko365.com:8888/', 'echo-protocol');
+client.connect('ws://127.0.0.1:8888/', 'game-protocol');

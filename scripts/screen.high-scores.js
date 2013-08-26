@@ -19,7 +19,6 @@ jewel.screens["high-scores"] = (function() {
     }
 
     function sendScores(score) {
-        console.log(score);
         ws.send(JSON.stringify(score));
     }
 
@@ -33,15 +32,7 @@ jewel.screens["high-scores"] = (function() {
                 return 0;
             }
         });
-
         $('#scoresList').html($.tmpl($("#scoresTemplate").html(), json));
-    }
-
-    function run() {
-
-    }
-
-    function setup() {
 
     }
 

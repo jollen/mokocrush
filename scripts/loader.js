@@ -28,8 +28,8 @@ window.addEventListener("load", function() {
     var jewelProto = document.getElementById("jewel-proto"),
         rect = jewelProto.getBoundingClientRect();
 
+    // set jewel size
     jewel.settings.jewelSize = rect.width;
-
 
     Modernizr.addTest("standalone", function() {
         return (window.navigator.standalone != false);

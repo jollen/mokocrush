@@ -35,9 +35,12 @@ jewel.screens["high-scores"] = (function() {
         $('#scoresList').html($.tmpl($("#scoresTemplate").html(), json));
 
     }
+    function run() {
+
+    }
 
     return {
-        run : run,
+        run: run,
         sendScores: sendScores
     };
 })();

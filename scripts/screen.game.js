@@ -4,6 +4,7 @@ jewel.screens["game-screen"] = (function() {
         display = jewel.display,
         input = jewel.input,
         dom = jewel.dom,
+        game = jewel.game,
         audio = jewel.audio,
         $ = dom.$,
         cursor,
@@ -112,8 +113,14 @@ jewel.screens["game-screen"] = (function() {
     }
 
     function gameOver() {
+        jewel.screens['high-scores'].sendScores({
+            name: "anonymous",
+            scores: gameState.score
+        });
+
         audio.play("gameover");
         display.gameOver(function() {
+            game.showScreen('high-scores');
             announce("Game over");
         });
     }

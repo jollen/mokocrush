@@ -1,0 +1,9 @@
+{
+  "name": "mokocrush",
+  "version": "1.0.0",
+  "description": "mokocrush",
+  "dependencies": {
+    "jsonfile": "~1.1.0",
+    "websocket": "~1.0.8"
+  }
+}

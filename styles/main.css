@@ -21,6 +21,15 @@ body {
 
 #game #high-scores {
     color: skyblue;
+    font-size: 32px;
+}
+
+#game #scoresList {
+    margin-left: 10px;
+}
+
+#game .scoreName {
+    width: 60%;
 }
 
 .jewel-size {

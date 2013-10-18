@@ -8,12 +8,21 @@ var scores = [];
 var port = 8888;
 
 var scores = [
-    { name: "Jollen", scores: 50 },
-    { name: "Frank", scores: 100 },
-    { name: "Ellaine", scores: 258 }
+    { name: "Jollen", scores: 5300 },
+    { name: "Ellaine", scores: 2580 },
+    { name: "Hank", scores: 1000 },
+    { name: "Sherry", scores: 11100 },
+    { name: "Jordan", scores: 35600 },
+    { name: "Michale", scores: 26400 },
+    { name: "Mary", scores: 26400 },
+    { name: "Mark", scores: 400 },
+    { name: "Justin", scores: 3000 },
+    { name: "Avril", scores: 5600 },
+    { name: "James", scores: 3360 }
 ];
 
 function start(route, handlers) {
+
     function onRequest(request, response) {
         var pathname = url.parse(request.url).pathname;
         var query = url.parse(request.url).query;
@@ -23,7 +32,7 @@ function start(route, handlers) {
         route(pathname, handlers, response, query, clients);
 
         response.writeHead(200, {'Content-Type': 'text/plain'});
-        response.write('Hello World');
+        response.write('Hello! This is WebSocket Server for MokoCrush.');
         response.end();
     }
 
@@ -31,24 +40,31 @@ function start(route, handlers) {
         console.log('Server has started and is listening on port ' + port);
     });
 
-    wsServer = new WebSocketServer({
+    var wsServer = new WebSocketServer({
         httpServer: server,
         autoAcceptConnections: false
     });
 
-
+    // sort by highest scores and response top 10
+    function sendScores(conn) {
+        scores.sort(function(a, b) {
+            return a.scores < b.scores ? 1 : -1;
+        });
+        conn.send(JSON.stringify(scores.slice(0, 10)));
+    }
 
     function onWsConnClose(reasonCode, description) {
         console.log('Peer disconnected with reason: ' + reasonCode);
     }
 
     function onWsRequest(request) {
+
         var connection;
 
         // Catch not support exception
         try {
             var connection = request.accept('game-protocol', request.origin);
-            connection.send(JSON.stringify(scores));
+            sendScores(connection);
         } catch (err) {
             console.log('WebSocket protocol NOT accepted.');
             return;
@@ -59,18 +75,17 @@ function start(route, handlers) {
         // Save clients (unlimited clients)
         clients.push(connection);
 
-        connection.on('message', function onWsConnMessage(message) {
+        connection.on('message', function(message) {
             if (message.type == 'utf8') {
                 console.log('Received message: ' + message.utf8Data);
 
                 scores.push(JSON.parse(message.utf8Data));
-                connection.send(JSON.stringify(scores));
+                sendScores(connection);
 
             } else if (message.type == 'binary') {
                 console.log('Received binary data.');
             }
         });
-
         connection.on('close', onWsConnClose);
     }
 

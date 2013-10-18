@@ -1,25 +1,18 @@
-var WebSocketServer = require('websocket').server;
 var http = require('http');
 var url = require('url');
+var path = require('path');
+var WebSocketServer = require('websocket').server;
+var jsonfile = require('jsonfile');
 
 // Connected WebSocket clients
 var clients = [];
 var scores = [];
 var port = 8888;
+var scoresFile = path.resolve(__dirname, 'scores.json');
 
-var scores = [
-    { name: "Jollen", scores: 5300 },
-    { name: "Ellaine", scores: 2580 },
-    { name: "Hank", scores: 1000 },
-    { name: "Sherry", scores: 11100 },
-    { name: "Jordan", scores: 35600 },
-    { name: "Michale", scores: 26400 },
-    { name: "Mary", scores: 26400 },
-    { name: "Mark", scores: 400 },
-    { name: "Justin", scores: 3000 },
-    { name: "Avril", scores: 5600 },
-    { name: "James", scores: 3360 }
-];
+jsonfile.readFile(scoresFile, function(err, json) {
+    if (!err) scores = json.data;
+});
 
 function start(route, handlers) {
 
@@ -80,6 +73,9 @@ function start(route, handlers) {
                 console.log('Received message: ' + message.utf8Data);
 
                 scores.push(JSON.parse(message.utf8Data));
+                jsonfile.writeFile(scoresFile, { data: scores }, function(err) {
+                    if (err) console.log('Score file write error!');
+                });
                 sendScores(connection);
 
             } else if (message.type == 'binary') {
